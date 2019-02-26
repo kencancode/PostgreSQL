@@ -15,21 +15,20 @@ client.connect((err) => {
   if (err) {
     return console.error("Connection Error", err);
   }
-  client.query(`SELECT * FROM famous_people WHERE first_name = $1::text`,[celebrity], (err, result) => {
+  client.query(`SELECT first_name, last_name, birthdate::text FROM famous_people WHERE first_name = $1::text`,[celebrity], (err, result) => {
     if (err) {
       return console.error("error running query", err);
     }
     console.log("Seaching...");
     console.log(`Found ${result.rows.length} person(s) by the name of '${celebrity}': `);
-    SELECT CAST("celebrity.birthdate" AS DATE);
-
     result.rows.forEach(function(celeb){
-      console.log(`${celeb.first_name} ${celeb.last_name}, born '${celeb.birthdate}'`)
+      console.log(`${celeb.first_name} ${celeb.last_name}` + "born " + celeb.birthdate)
     });
 
     client.end();
   });
 });
+
 
 
 //$1::text`,[celebrity] for security
